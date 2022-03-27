@@ -65,7 +65,7 @@ body {
     min-width: 20vw;
 }
 
-#textBox>.send {
+#textBox>.icon {
     padding-right: 0px;
     padding-top: 12px;
     color: #cccccc3c;
@@ -76,14 +76,20 @@ body {
     color: #cccccc;
 }
 
+#textBox>.delete:hover {
+    color: #d31212;
+}
+
 #foundWords {
     color: #afafaf;
     height: 20vh;
     font-family: 'Red Hat Mono', monospace;
     display: flex;
+    align-content: center;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 15px;
+    row-gap: 5px;
+    column-gap: 50px;
     margin: 20px 20%;
 }
 
@@ -98,6 +104,10 @@ body {
     font-size: 1.25rem;
 }
 
+.counter {
+    color: #6e6e6e;
+}
+
 .char {
     transition-duration: 200ms;
     width: 4vw;
@@ -109,6 +119,7 @@ body {
     text-align: center;
     background-color: #bbbbbb;
     /* border: dashed #111111; */
+    border: none;
     border-radius: 10px;
     box-shadow: 3px 3px 10px rgb(14, 14, 14);
     cursor: pointer;
@@ -116,7 +127,17 @@ body {
 
 .char:hover {
     transition-duration: 200ms;
-    background-color: #eba611;
+    background-color: #888;
+    /* background-color: #eba611; */
     /* background-color: #15ac10; */
     /* background-color: #d31212; */
+}
+
+input {
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    background-color: transparent;
+    border: none;
+    outline: none;
 }
