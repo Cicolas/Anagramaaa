@@ -1,0 +1,122 @@
+body {
+    margin: 0px;
+    background-color: #111111;
+}
+
+#game {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+#title {
+    font-family: 'Red Hat Mono', monospace;
+    width: 100%;
+    border-bottom: solid;
+    border-color: #ffffff57;
+    border-width: .05em;
+    /* background-color: #00000057; */
+    text-align: center;
+    padding-top: .25em;
+    padding-bottom: .25em;
+    font-size: 2em;
+    /* font-weight: 600; */
+    color: #cccccc;
+    text-shadow: 0px 0px 5px #ffffff;
+    box-shadow: 0px 0px 10px #000;
+}
+
+#gameArea {
+    display: flex;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 12vh;
+}
+
+#chars {
+    display: flex;
+    margin: 0px auto;
+    gap: 1.5vw;
+    background-color: rgba(255, 255, 255, 0.11);
+    padding: 1vw;
+    border-radius: 10px;
+}
+
+#textBox {
+    position: relative;
+    display: flex;
+    margin: 50px auto;
+    font-family: 'Red Hat Mono', monospace;
+    color: #afafaf;
+    font-size: 2rem;
+    border-bottom: solid #ffffff3f .05em;
+    width: fit-content;
+    min-width: 20vw;
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+#textBox>#textWrite {
+    min-width: 20vw;
+}
+
+#textBox>.send {
+    padding-right: 0px;
+    padding-top: 12px;
+    color: #cccccc3c;
+    cursor: pointer;
+}
+
+#textBox>.send:hover {
+    color: #cccccc;
+}
+
+#foundWords {
+    color: #afafaf;
+    height: 20vh;
+    font-family: 'Red Hat Mono', monospace;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 20%;
+}
+
+#foundWords>* {
+    margin: 0px auto;
+}
+
+.title {
+    font-family: 'Red Hat Mono', monospace;
+    text-align: center;
+    color: #cccccc;
+    font-size: 1.25rem;
+}
+
+.char {
+    transition-duration: 200ms;
+    width: 4vw;
+    height: 6vw;
+    line-height: 6vw;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 2rem;
+    color: #111;
+    text-align: center;
+    background-color: #bbbbbb;
+    /* border: dashed #111111; */
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgb(14, 14, 14);
+    cursor: pointer;
+}
+
+.char:hover {
+    transition-duration: 200ms;
+    background-color: #eba611;
+    /* background-color: #15ac10; */
+    /* background-color: #d31212; */
+}
