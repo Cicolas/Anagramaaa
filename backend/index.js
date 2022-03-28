@@ -36,7 +36,7 @@ app.get("/api/check_word/:word", (req, res) => {
 
     res.status(200).json({
         word: req.params.word,
-        exist: checkWord(req.params.word, null)
+        exist: checkWord(req.params.word, null) ? true : false
     });
 })
 
@@ -71,7 +71,9 @@ function getRandomWord() {
 
 function checkWord(word, base) {
     if (!base) {
-        return words.includes(word.normalize("NFD").replace(/[^a-zA-Zs]/g, ""));
+        return words.find(value => {
+            return word.normalize("NFD").replace(/[^a-zA-Zs]/g, "") === value.normalize("NFD").replace(/[^a-zA-Zs]/g, "")
+        });
     }
 }
 

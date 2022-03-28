@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skramble</title>
+    <title>Palindromooo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,9 @@
 <body>
     <div id="game">
         <div id="title">
-            Skramble
+            <span class="material-icons icon help">
+            help
+            </span> Palíndromo
         </div>
 
         <div id="textBox">
@@ -38,6 +40,23 @@
         <div id="gameArea">
             <div id="chars">
             </div>
+        </div>
+    </div>
+
+    <div id="helpBox" class="hidden">
+        <div id="helpText" class="hidden">
+            <span class="material-icons icon close">
+            close
+            </span>
+            <div class="title"><b><u>Ajuda:</u></b></div>
+            <p class="">
+                Descubra o máximo de palavras que se pode fazer com uma palavra randomizada diariamente
+            </p>
+            <p class="">
+                Exemplo: <br> R-e-c-o-m-e-ç-a-r
+                <br>
+                <br> podemos tirar: "começar", "comer", "crer", etc...
+            </p>
         </div>
     </div>
 </body>

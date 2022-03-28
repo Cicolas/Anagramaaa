@@ -27,7 +27,8 @@ body {
     /* font-weight: 600; */
     color: #cccccc;
     text-shadow: 0px 0px 5px #ffffff;
-    box-shadow: 0px 0px 10px #000;
+    box-shadow: 0px 0px 10px #000000;
+    user-select: none;
 }
 
 #gameArea {
@@ -65,11 +66,35 @@ body {
     min-width: 20vw;
 }
 
-#textBox>.icon {
+.icon {
     padding-right: 0px;
     padding-top: 12px;
     color: #cccccc3c;
     cursor: pointer;
+    user-select: none;
+}
+
+.help {
+    position: absolute;
+    left: 24px;
+    color: #333;
+    text-shadow: none;
+}
+
+#helpBox>#helpText>.close {
+    position: absolute;
+    right: 12px;
+    top: 0px;
+    color: #afafaf;
+    text-shadow: none;
+}
+
+#helpBox>#helpText>.close:hover {
+    color: #fff;
+}
+
+.help:hover {
+    color: #7e7e7e;
 }
 
 #textBox>.send:hover {
@@ -81,6 +106,7 @@ body {
 }
 
 #foundWords {
+    /* background-color: #0c0c0c; */
     color: #afafaf;
     height: 20vh;
     font-family: 'Red Hat Mono', monospace;
@@ -89,12 +115,48 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
     row-gap: 5px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
     column-gap: 50px;
-    margin: 20px 20%;
+    margin: 20px 15%;
+    overflow-x: auto;
 }
 
 #foundWords>* {
     margin: 0px auto;
+}
+
+#helpBox {
+    display: flex;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    backdrop-filter: blur(3px);
+    background-color: #00000031;
+}
+
+#helpBox>#helpText {
+    padding: 1em 1.2em;
+    position: relative;
+    margin: auto;
+    width: 25em;
+    height: 35em;
+    border-radius: 5px;
+    background-color: #333;
+}
+
+#helpBox>#helpText>.title {
+    font-size: 2rem;
+    text-align: left;
+}
+
+#helpBox>#helpText>p {
+    color: #afafaf;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
 }
 
 .title {
@@ -140,4 +202,26 @@ input {
     background-color: transparent;
     border: none;
     outline: none;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #111;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 2px;
+}
+
+.hidden {
+    display: none;
+}
+
+#helpBox.hidden {
+    display: none;
 }
