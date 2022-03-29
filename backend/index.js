@@ -4,6 +4,8 @@ const enviroment = require("../shared/enviroment");
 const fs = require('fs');
 const path = require("path")
 
+const day = new Date();
+const seed = getSeed(day);
 const app = express();
 app.use(cors());
 
@@ -24,7 +26,7 @@ app.get("/api/random_word", (req, res) => {
 })
 
 app.get("/api/daily_word", (req, res) => {
-    console.log(`Daily word sent: "${word}" ${possibleCount(dayWord)} possible combinations`);
+    console.log(`Daily word sent: "${dayWord}" ${possibleCount(dayWord)} possible combinations`);
     res.status(200).json({
         word: dayWord,
         quantity: possibleCount(dayWord)
@@ -35,8 +37,8 @@ app.get("/api/check_word/:word", (req, res) => {
     // console.log("checking word: " + req.params.word + "... " + checkWord(req.params.word, null));
 
     res.status(200).json({
-        word: req.params.word,
-        exist: checkWord(req.params.word, null) ? true : false
+        word: checkWord(req.params.word),
+        exist: checkWord(req.params.word, null).length > 0
     });
 })
 
@@ -60,7 +62,7 @@ function start() {
                 return v.trim();
             });
 
-        dayWord = getRandomWord();
+        dayWord = getDayWord();
     });
 }
 
@@ -69,10 +71,20 @@ function getRandomWord() {
     return words[index];
 }
 
+function getSeed(d) {
+    return Math.floor(Math.floor(d / 1000) / 3600 / 24);
+}
+
+function getDayWord() {
+    console.log(`Dia: ${seed}`);
+    const index = Math.floor(Math.random(seed) * 100000) % words.length;
+    return words[index];
+}
+
 function checkWord(word, base) {
     if (!base) {
-        return words.find(value => {
-            return word.normalize("NFD").replace(/[^a-zA-Zs]/g, "") === value.normalize("NFD").replace(/[^a-zA-Zs]/g, "")
+        return words.filter(value => {
+            return removeAccecnt(word) === removeAccecnt(value)
         });
     }
 }
@@ -81,7 +93,7 @@ function possibleCount(word) {
     var chars = {
         // "a": 2
     };
-    word.split("").forEach(element => {
+    removeAccecnt(word).split("").forEach(element => {
         if (!chars[element]) {
             chars[element] = 1;
         } else {
@@ -97,7 +109,7 @@ function possibleCount(word) {
             var is = true;
 
             var wordChars = {}
-            value.split("").forEach(element => {
+            removeAccecnt(value).split("").forEach(element => {
                 if (!wordChars[element]) {
                     wordChars[element] = 1;
                 } else {
@@ -120,4 +132,8 @@ function possibleCount(word) {
 
     console.log(possibles);
     return possibles.length;
+}
+
+function removeAccecnt(str) {
+    return str.normalize("NFD").replace(/[^a-zA-Zs]/g, "")
 }

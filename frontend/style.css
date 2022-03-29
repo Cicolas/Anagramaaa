@@ -159,6 +159,21 @@ body {
     line-height: 1.5rem;
 }
 
+#messageBox {
+    font-family: 'Red Hat Mono', monospace;
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    max-width: 15em;
+    padding: .5em 1em;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+    transform: translate(-50%, 0px);
+}
+
 .title {
     font-family: 'Red Hat Mono', monospace;
     text-align: center;

@@ -7558,6 +7558,7 @@ caríssima
 caríssimo
 carótida
 carótidas
+casa
 casaca
 casacas
 casacasas
@@ -37989,6 +37990,7 @@ torrada
 torradas
 torrados
 torrar
+torre
 torreira
 torrente
 torrentes
