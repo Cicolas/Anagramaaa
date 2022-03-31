@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
     mode: "development",
     entry: './app.js',
+    devtool: 'inline-source-map',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, "../dist"),
@@ -12,12 +13,11 @@ module.exports = {
 
     module: {
         rules: [{
+                test: /\.tsx?$/,
+                loader: 'ts-loader'
+            }, {
                 test: /\.css$/,
                 use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
-            },
-            {
-                test: /\.ts$/,
-                loader: 'ts-loader'
             },
             {
                 test: /\.html$/,
@@ -31,6 +31,9 @@ module.exports = {
             }
         ]
     },
+    resolve: {
+        extensions: ['.js', '.ejs', '.json', '.jsx', '.ts', '.tsx', '.css', '.jpg', '.jpeg', '.png', '.gif']
+    },
 
     devServer: {
         proxy: {
@@ -38,7 +41,8 @@ module.exports = {
         },
         https: false
     },
-
+    devtool: 'source-map',
+    target: 'web',
 
     plugins: [new HtmlWebpackPlugin({
         template: "./frontend/index.html"

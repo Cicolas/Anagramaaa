@@ -1,26 +1,81 @@
-const helpBox = document.getElementById("helpBox");
+const box = document.getElementById("box");
 const helpText = document.getElementById("helpText");
-const quit = document.getElementsByClassName("close")[0];
+const completeText = document.getElementById("completeText");
+const shareButton = document.getElementById("share");
+const quit = document.getElementsByClassName("close");
 const help = document.getElementsByClassName("help")[0];
 
+export interface dayData {
+    day: number,
+    word: string,
+    found: string[],
+    correct: number,
+    all: number
+}
+var data: dayData;
 var showingHelp = false;
+var showingComplete = false;
 console.log(help);
+
+function changeBoxState(visible: boolean) {
+    if(visible) {
+        box.classList.remove("hidden");
+        return;
+    }
+    box.classList.add("hidden");
+}
 
 function changeHelpState() {
     showingHelp = !showingHelp;
-    console.log(helpBox as HTMLElement);
 
     if (!showingHelp) {
-        helpBox.classList.add("hidden");
+        changeBoxState(false);
         helpText.classList.add("hidden");
         return;
     }
 
-    helpBox.classList.remove("hidden");
+    changeBoxState(true);
     helpText.classList.remove("hidden");
 }
 
-export default function showMessageBox(msg: string, time: number, type: string, callback?: () => void) {
+function changeCompleteState() {
+    showingComplete = !showingComplete;
+    console.log(showingComplete);
+
+
+    if (!showingComplete) {
+        changeBoxState(false);
+        completeText.classList.add("hidden");
+        return;
+    }
+
+    changeBoxState(true);
+    completeText.classList.remove("hidden");
+}
+
+function copyToClipboard() {
+    const c = `
+@Anagramna #${data.day}
+A palavra era: ${data.word}
+
+encontrado:
+${data.found.join("; ")}
+
+${data.correct}/${data.all}
+
+joguem em: anagramna.co
+    `
+    navigator.clipboard.writeText(c);
+
+    showMessageBox("copiado para sua área de transferência (CTRL+V)", 2000, "normal");
+}
+
+export function complete(correct: dayData) {
+    data = correct;
+    changeCompleteState();
+}
+
+export function showMessageBox(msg: string, time: number, type: string, callback?: () => void) {
     const div = document.createElement("div");
     div.innerHTML = msg;
     div.id = "messageBox";
@@ -28,8 +83,8 @@ export default function showMessageBox(msg: string, time: number, type: string, 
     if (type === "normal") {
         div.style.backgroundColor = "#888";
     }if (type === "correct") {
-        div.style.backgroundColor = "#73dd10";
-        div.style.color = "#000";
+        div.style.backgroundColor = "#15ac10";
+        // div.style.color = "#000";
     }else if (type === "error") {
         div.style.backgroundColor = "#d31212";
     }else if (type === "warn") {
@@ -61,5 +116,16 @@ export default function showMessageBox(msg: string, time: number, type: string, 
     }
 }
 
-help.addEventListener("click", changeHelpState.bind(this))
-quit.addEventListener("click", changeHelpState.bind(this))
+help.addEventListener("click", changeHelpState)
+shareButton.addEventListener("click", copyToClipboard);
+for (let i = 0; i < quit.length; i++) {
+    const element = quit[i];
+    element.addEventListener("click", () => {
+        if (showingHelp) {
+            changeHelpState();
+        }
+        if (showingComplete) {
+            changeCompleteState();
+        }
+    })
+}

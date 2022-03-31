@@ -1,5 +1,5 @@
 import enviroment from "../../shared/enviroment.js";
-import showMessageBox from "./index.ts";
+import {complete, showMessageBox} from "./index";
 
 const chars = document.getElementById("chars");
 const textWrite = document.getElementById("textWrite");
@@ -25,7 +25,11 @@ async function loadWord() {
         .catch(() => {
             console.log("error");
 
-            showMessageBox("erro ao se comunicar com o servidor. (err: 1000)", -1, "error");
+            showMessageBox(
+                "erro ao se comunicar com o servidor. (err: 1000)",
+                -1,
+                "error"
+            );
         });
 
     selectedWord = res.word;
@@ -101,7 +105,7 @@ function clearSelectedDivs() {
 
 function addCorrectWord(word: string[]) {
     for (let i = 0; i < word.length; i++) {
-        const v = word[i]
+        const v = word[i];
         if (!correctWords.includes(v)) {
             correctWords.push(v);
             const div = document.createElement("div");
@@ -113,6 +117,22 @@ function addCorrectWord(word: string[]) {
             counter.innerHTML = `${correctWords.length}/${quantity}`;
             correctWordsAlign();
         }
+    }
+
+    if (quantity === correctWords.length) {
+        showMessageBox(
+            "Parabéns você completou o desafio de hoje!!!",
+            3000,
+            "correct"
+        );
+
+        complete({
+            day: 0,
+            word: selectedWord,
+            found: correctWords,
+            correct: correctWords.length,
+            all: quantity
+        });
     }
 }
 
@@ -135,13 +155,19 @@ function reset() {
 }
 
 async function sendWord() {
-    const res = await fetch(
-        `${enviroment.url}/api/check_word/${writingWord}`
-    ).catch(() =>
-        showMessageBox("erro ao se comunicar com o servidor.(err: 1001)", 5000, "error")
-    );
-    const value = await res.json();
+    const res = await fetch(`${enviroment.url}/api/check_word/${writingWord}`)
+        .then((value) => {
+            return value.json();
+        })
+        .catch(() =>
+            showMessageBox(
+                "erro ao se comunicar com o servidor.(err: 1001)",
+                5000,
+                "error"
+            )
+        );
 
+    const value = await res;
     if (value.exist) addCorrectWord(value.word);
 }
 
@@ -171,4 +197,4 @@ document.addEventListener("keydown", async (e) => {
     }
 });
 
-loadWord().then(() => setChars());
+loadWord().then(setChars);

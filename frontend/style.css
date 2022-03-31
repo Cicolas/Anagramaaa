@@ -81,7 +81,7 @@ body {
     text-shadow: none;
 }
 
-#helpBox>#helpText>.close {
+#box>.container>.close {
     position: absolute;
     right: 12px;
     top: 0px;
@@ -89,7 +89,7 @@ body {
     text-shadow: none;
 }
 
-#helpBox>#helpText>.close:hover {
+#box>.container>.close:hover {
     color: #fff;
 }
 
@@ -127,7 +127,7 @@ body {
     margin: 0px auto;
 }
 
-#helpBox {
+#box {
     display: flex;
     position: absolute;
     left: 0px;
@@ -138,7 +138,7 @@ body {
     background-color: #00000031;
 }
 
-#helpBox>#helpText {
+#box>.container {
     padding: 1em 1.2em;
     position: relative;
     margin: auto;
@@ -148,12 +148,12 @@ body {
     background-color: #333;
 }
 
-#helpBox>#helpText>.title {
+#box>.container>.title {
     font-size: 2rem;
     text-align: left;
 }
 
-#helpBox>#helpText>p {
+#box>.container>p {
     color: #afafaf;
     font-size: 1.25rem;
     line-height: 1.5rem;
@@ -172,6 +172,36 @@ body {
     border-radius: 10px;
     overflow-wrap: break-word;
     transform: translate(-50%, 0px);
+}
+
+#share {
+    position: absolute;
+    bottom: 1.5em;
+    width: 30em;
+    height: 5em;
+    left: 50%;
+    transform: translate(-50%, 0);
+    line-height: 5em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+    color: #111;
+    background-color: #ccc;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 3px 3px 10px rgb(14, 14, 14);
+}
+
+#share:hover {
+    background-color: #bbb;
+}
+
+.share.icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: black;
 }
 
 .title {
@@ -237,6 +267,22 @@ input {
     display: none;
 }
 
-#helpBox.hidden {
+#box.hidden {
     display: none;
+}
+
+#creditos {
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+    text-align: right;
+    font-size: 1rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #888;
+}
+
+#creditos>a {
+    color: #eba611;
+    text-decoration: none;
+    font-family: inherit;
 }
