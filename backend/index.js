@@ -4,8 +4,8 @@ const enviroment = require("../shared/enviroment");
 const fs = require('fs');
 const path = require("path")
 
-const day = new Date();
-const seed = getSeed(day);
+var day = new Date();
+var seed = getSeed(day);
 const app = express();
 app.use(cors());
 
@@ -26,10 +26,10 @@ app.get("/api/random_word", (req, res) => {
 })
 
 app.get("/api/daily_word", (req, res) => {
-    console.log(`Daily word sent: "${dayWord}" ${possibleCount(dayWord)} possible combinations`);
+    console.log(`Daily word sent: "${dayWord}" ${dayGuesses.length} possible combinations`);
     res.status(200).json({
         word: dayWord,
-        quantity: possibleCount(dayWord)
+        quantity: dayGuesses.length
     });
 })
 
@@ -50,9 +50,13 @@ app.listen(enviroment.port, () => {
 
 var words = [];
 var dayWord = "";
+var dayGuesses = [];
 
 function start() {
     fs.readFile(path.resolve(__dirname, "palavras.txt"), "utf8", (err, data) => {
+        if (err) {
+            throw err.message;
+        }
         words = data
             .replace(/\n/g, " ")
             .replace(/\r/g, " ")
@@ -62,8 +66,30 @@ function start() {
                 return v.trim();
             });
 
-        dayWord = getDayWord();
+        update();
     });
+}
+
+function update() {
+    day = new Date();
+    seed = getSeed(day);
+    const nextDay = new Date();
+    nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setHours(0);
+    nextDay.setMinutes(0)
+    nextDay.setSeconds(0);
+    nextDay.setMilliseconds(0);
+
+    const nextAtt = nextDay.getTime() - day.getTime();
+
+    console.log(`Tempo próxima atualização: ${nextAtt}ms`);
+    console.log(`Dia: ${seed}`);
+    dayWord = getDayWord();
+    dayGuesses = getPossibles(dayWord);
+    console.log(dayWord);
+    console.log(dayGuesses);
+
+    setTimeout(update, nextAtt);
 }
 
 function getRandomWord() {
@@ -72,24 +98,26 @@ function getRandomWord() {
 }
 
 function getSeed(d) {
-    return Math.floor(Math.floor(d / 1000) / 3600 / 24);
+    var t = d.getTime();
+    t -= 3 * 3600 * 1000;
+
+    return Math.floor(Math.floor(t / 1000) / 3600 / 24);
 }
 
 function getDayWord() {
-    console.log(`Dia: ${seed}`);
     const index = Math.floor(Math.random(seed) * 100000) % words.length;
     return words[index];
 }
 
 function checkWord(word, base) {
     if (!base) {
-        return words.filter(value => {
+        return dayGuesses.filter(value => {
             return removeAccecnt(word) === removeAccecnt(value)
         });
     }
 }
 
-function possibleCount(word) {
+function getPossibles(word) {
     var chars = {
         // "a": 2
     };
@@ -130,8 +158,7 @@ function possibleCount(word) {
             return is;
         });
 
-    console.log(possibles);
-    return possibles.length;
+    return possibles;
 }
 
 function removeAccecnt(str) {
