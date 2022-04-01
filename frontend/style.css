@@ -60,6 +60,7 @@ body {
     min-width: 20vw;
     text-align: center;
     margin-bottom: 80px;
+    height: 2.5rem;
 }
 
 #textBox>#textWrite {
@@ -175,6 +176,7 @@ body {
 }
 
 #share {
+    transition-duration: 100ms;
     position: absolute;
     bottom: 1.5em;
     width: 30em;
@@ -194,7 +196,19 @@ body {
 }
 
 #share:hover {
-    background-color: #bbb;
+    transition-duration: 100ms;
+    background-color: #888;
+}
+
+#desistir {
+    position: absolute;
+    left: 50%;
+    top: 3rem;
+    font-size: 1rem;
+    font-family: 'Red Hat Mono', monospace;
+    color: #333;
+    cursor: pointer;
+    transform: translate(-50%, 0px);
 }
 
 .share.icon {

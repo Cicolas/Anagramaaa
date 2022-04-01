@@ -15,7 +15,6 @@ export interface dayData {
 var data: dayData;
 var showingHelp = false;
 var showingComplete = false;
-console.log(help);
 
 function changeBoxState(visible: boolean) {
     if(visible) {
@@ -54,20 +53,34 @@ function changeCompleteState() {
 }
 
 function copyToClipboard() {
-    const c = `
-@Anagramna #${data.day}
+    const c = `@Anagramna #${data.day}
 A palavra era: ${data.word}
 
 encontrado:
-${data.found.join("; ")}
+${getFirstFound().join("; ")+(data.found.length>5?"...":"")}
 
+${emojiList()}
 ${data.correct}/${data.all}
 
-joguem em: anagramna.co
-    `
+joguem em: anagramna.co`
     navigator.clipboard.writeText(c);
 
     showMessageBox("copiado para sua área de transferência (CTRL+V)", 2000, "normal");
+}
+
+function emojiList() {
+    const percent = Math.floor((data.correct/data.all)*10);
+    var str = "";
+
+    for (let i = 0; i < 10; i++) {
+        str += percent>i?"🟢":"🔴";
+    }
+
+    return str;
+}
+function getFirstFound() {
+    const len = Math.min(data.found.length, 5);
+    return data.found.slice(0, len);
 }
 
 export function complete(correct: dayData) {
