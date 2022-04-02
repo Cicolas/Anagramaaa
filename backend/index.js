@@ -28,7 +28,8 @@ app.get("/api/random_word", (req, res) => {
 app.get("/api/daily_word", (req, res) => {
     console.log(`Daily word sent: "${dayWord}" ${dayGuesses.length} possible combinations`);
     res.status(200).json({
-        word: dayWord,
+	    day: seed,
+	word: dayWord,
         quantity: dayGuesses.length
     });
 })
