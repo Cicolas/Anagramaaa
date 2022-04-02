@@ -1,20 +1,27 @@
+import { disableAll, _data } from "./game";
+import enviroment from "../../shared/enviroment";
+import { finish } from "./saveManager";
+
 const box = document.getElementById("box");
 const helpText = document.getElementById("helpText");
 const completeText = document.getElementById("completeText");
 const shareButton = document.getElementById("share");
+const completeButton = document.getElementById("desistir");
 const quit = document.getElementsByClassName("close");
 const help = document.getElementsByClassName("help")[0];
 
+const allWords = document.getElementsByClassName("allWords")[0];
+
 export interface dayData {
-    day: number,
+    day: string,
     word: string,
     found: string[],
     correct: number,
-    all: number
+    all: number,
 }
-var data: dayData;
-var showingHelp = false;
-var showingComplete = false;
+let data: dayData = _data;
+let showingHelp = false;
+let showingComplete = false;
 
 function changeBoxState(visible: boolean) {
     if(visible) {
@@ -39,8 +46,6 @@ function changeHelpState() {
 
 function changeCompleteState() {
     showingComplete = !showingComplete;
-    console.log(showingComplete);
-
 
     if (!showingComplete) {
         changeBoxState(false);
@@ -50,6 +55,35 @@ function changeCompleteState() {
 
     changeBoxState(true);
     completeText.classList.remove("hidden");
+    updateCompleteState();
+}
+
+async function updateCompleteState() {
+    let res = await fetch(`${enviroment.url}/api/get_all_words/`)
+        .then((value) => {
+            return value.json();
+        })
+        .catch(() => {
+            console.log("error");
+
+            showMessageBox(
+                "erro ao se comunicar com o servidor. (err: 1003)",
+                3000,
+                "error"
+            );
+        });
+
+        let str = "";
+
+        for (let i = 0; i < res.words.length; i++) {
+            if (data.found.includes(res.words[i])) {
+                str += `<span class="highlight"><b>${res.words[i]}</b></span>; `;
+            }else {
+                str += res.words[i]+"; ";
+            }
+        }
+
+        allWords.innerHTML = str;
 }
 
 function copyToClipboard() {
@@ -84,8 +118,19 @@ function getFirstFound() {
 }
 
 export function complete(correct: dayData) {
-    data = correct;
     changeCompleteState();
+    if (localStorage.getItem("data")) {
+        if (data.day == JSON.parse(localStorage.getItem("data")).day) {
+            showMessageBox("Você já jogou hoje, volte amanhã para jogar mais!!!", 5000, "normal");
+            return;
+        }
+    }
+
+    console.log(data);
+
+    data = correct;
+    disableAll();
+    finish(data);
 }
 
 export function showMessageBox(msg: string, time: number, type: string, callback?: () => void) {
@@ -129,6 +174,7 @@ export function showMessageBox(msg: string, time: number, type: string, callback
     }
 }
 
+completeButton.addEventListener("click", complete.bind(this, _data));
 help.addEventListener("click", changeHelpState)
 shareButton.addEventListener("click", copyToClipboard);
 for (let i = 0; i < quit.length; i++) {

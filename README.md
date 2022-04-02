@@ -5,14 +5,14 @@ Anagramaaa é um jogo diario de puzzle onde você tem que encontrar o máximo de
 possiveis dentro de outra palavra
 
 ```py
-@Anagramna #0
-A palavra era: pudo
+@Anagramna #1
+A palavra era: atopia
 
 encontrado:
-pudo; udo; odu; duo; upo
+atopia; top; aipo; poia; tipo...
 
-🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢
-5/5
+🟢🔴🔴🔴🔴🔴🔴🔴🔴🔴
+9/54
 
 joguem em: anagramna.co
 ```

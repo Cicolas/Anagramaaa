@@ -1,5 +1,5 @@
 import enviroment from "../../shared/enviroment.js";
-import {complete, showMessageBox} from "./index";
+import {complete, dayData, showMessageBox} from "./index";
 
 const chars = document.getElementById("chars");
 const textWrite = document.getElementById("textWrite");
@@ -8,16 +8,25 @@ const deleteButton = document.getElementsByClassName("delete")[0];
 const sendButton = document.getElementsByClassName("send")[0];
 const counter = document.getElementsByClassName("counter")[0];
 
+export var finished = false;
 var wordChars: [string, HTMLElement][] = [];
-var selectedWord = "";
-var writingWord = "";
-const correctWords = [];
-
-var quantity = 0;
+var writingWord = ""
 const selectedDivs = [];
 var possibleChars: [string, HTMLElement][] = [];
 
+export const _data: dayData = {
+    day: "",
+    word: "",
+    found: [],
+    correct: 0,
+    all: 0
+};
+
 async function loadWord() {
+    if (localStorage.getItem("data")) {
+        _data.day = JSON.parse(localStorage.getItem("data")).day
+    }
+
     var res = await fetch(`${enviroment.url}/api/daily_word/`)
         .then((value) => {
             return value.json();
@@ -31,13 +40,15 @@ async function loadWord() {
                 "error"
             );
         });
+        _data.word = res.word;
+        _data.all = res.quantity;
 
-    selectedWord = res.word;
-    quantity = res.quantity;
+        finished = res.day.toString() == _data.day;
+        _data.day = res.day;
 }
 
 function setChars() {
-    const chs = selectedWord.split("");
+    const chs = _data.word.split("");
 
     chs.forEach((element) => {
         const div = document.createElement("button");
@@ -50,6 +61,10 @@ function setChars() {
 
         chars.appendChild(div);
     });
+    if (finished){
+        disableAll()
+        loadFoundWords();
+    }
 }
 
 function updateChar(c, div) {
@@ -106,34 +121,50 @@ function clearSelectedDivs() {
 function addCorrectWord(word: string[]) {
     for (let i = 0; i < word.length; i++) {
         const v = word[i];
-        if (!correctWords.includes(v)) {
-            correctWords.push(v);
+        if (!_data.found.includes(v)) {
+            _data.found.push(v);
             const div = document.createElement("div");
             div.classList.add("word");
             div.innerHTML = v+"\n";
 
             foundWords.appendChild(div);
 
-            counter.innerHTML = `${correctWords.length}/${quantity}`;
+            counter.innerHTML = `${_data.found.length}/${_data.all}`;
+            _data.correct = _data.found.length
             correctWordsAlign();
         }
     }
 
-    if (quantity === correctWords.length) {
+    if (_data.all === _data.found.length) {
         showMessageBox(
             "Parabéns você completou o desafio de hoje!!!",
             3000,
             "correct"
         );
 
-        complete({
-            day: 0,
-            word: selectedWord,
-            found: correctWords,
-            correct: correctWords.length,
-            all: quantity
-        });
+        disableAll();
+        complete(_data);
     }
+}
+
+export function disableAll() {
+    finished = true;
+
+    wordChars.forEach(value => {
+        (value[1] as HTMLButtonElement).disabled = true;
+        value[1].style.backgroundColor = "#333";
+        value[1].style.cursor = "default";
+    })
+}
+
+function loadFoundWords(){
+    const a = JSON.parse(localStorage.getItem("data")).found;
+
+    for (let i = 0; i < a.length; i++) {
+        addCorrectWord(a);
+    }
+
+    correctWordsAlign();
 }
 
 function correctWordsAlign() {
@@ -181,13 +212,14 @@ sendButton.addEventListener("click", async () => {
 });
 
 document.addEventListener("keydown", async (e) => {
-    addChar(e.key.toLowerCase());
+    if (!finished) {
+        addChar(e.key.toLowerCase());
+        if (e.key === "Enter") {
+            sendWord();
+            reset();
 
-    if (e.key === "Enter") {
-        sendWord();
-        reset();
-
-        e.preventDefault();
+            e.preventDefault();
+        }
     }
 
     if (e.key === "Backspace") {

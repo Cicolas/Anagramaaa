@@ -211,6 +211,62 @@ body {
     transform: translate(-50%, 0px);
 }
 
+#box>#completeText>p {
+    height: 15em;
+    overflow-y: auto;
+    color: #777;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+}
+
+#status {
+    display: flex;
+    /* width: 100%; */
+    margin: 25px 0px;
+    padding: 25px 0px;
+    align-content: center;
+    background-color: #232323;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgb(14, 14, 14);
+}
+
+#status>div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 3em;
+    height: 2em;
+    margin: auto;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 2rem;
+}
+
+#status>div>.number {
+    color: #cccccc;
+    text-align: center;
+    font-size: 1.25em;
+}
+
+#status>div>.label {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    color: #777;
+    font-size: .75rem;
+}
+
+#desistir:hover {
+    color: #126cd3;
+}
+
+.pTitle {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #bbbbbb;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
 .share.icon {
     position: absolute;
     top: 10px;
@@ -254,6 +310,10 @@ body {
     /* background-color: #d31212; */
 }
 
+.highlight {
+    color: #cccccc;
+}
+
 input {
     color: inherit;
     font: inherit;
@@ -273,7 +333,7 @@ input {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #333;
+    background-color: #555;
     border-radius: 2px;
 }
 
