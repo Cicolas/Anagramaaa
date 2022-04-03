@@ -8,11 +8,11 @@ const deleteButton = document.getElementsByClassName("delete")[0];
 const sendButton = document.getElementsByClassName("send")[0];
 const counter = document.getElementsByClassName("counter")[0];
 
-export var finished = false;
-var wordChars: [string, HTMLElement][] = [];
-var writingWord = ""
+export let finished = false;
+let wordChars: [string, HTMLElement][] = [];
+let writingWord = ""
 const selectedDivs = [];
-var possibleChars: [string, HTMLElement][] = [];
+let possibleChars: [string, HTMLElement][] = [];
 
 export const _data: dayData = {
     day: "",
@@ -186,6 +186,7 @@ function reset() {
 }
 
 async function sendWord() {
+    if (writingWord === "") return;
     const res = await fetch(`${enviroment.url}/api/check_word/${writingWord}`)
         .then((value) => {
             return value.json();

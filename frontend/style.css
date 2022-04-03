@@ -75,13 +75,6 @@ body {
     user-select: none;
 }
 
-.help {
-    position: absolute;
-    left: 24px;
-    color: #333;
-    text-shadow: none;
-}
-
 #box>.container>.close {
     position: absolute;
     right: 12px;
@@ -92,10 +85,6 @@ body {
 
 #box>.container>.close:hover {
     color: #fff;
-}
-
-.help:hover {
-    color: #7e7e7e;
 }
 
 #textBox>.send:hover {
@@ -211,7 +200,13 @@ body {
     transform: translate(-50%, 0px);
 }
 
-#box>#completeText>p {
+#box>#completeText>.todayWord {
+    text-align: center;
+    margin: 10px 0px;
+    font-size: 1.5em;
+}
+
+#box>#completeText>.words {
     height: 15em;
     overflow-y: auto;
     color: #777;
@@ -258,6 +253,28 @@ body {
 
 #desistir:hover {
     color: #126cd3;
+}
+
+.help {
+    position: absolute;
+    left: 24px;
+    color: #333;
+    text-shadow: none;
+}
+
+.help:hover {
+    color: #7e7e7e;
+}
+
+.charts:hover {
+    color: #7e7e7e;
+}
+
+.charts {
+    position: absolute;
+    left: 72px;
+    color: #333;
+    text-shadow: none;
 }
 
 .pTitle {

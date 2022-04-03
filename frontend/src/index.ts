@@ -1,6 +1,6 @@
-import { disableAll, _data } from "./game";
+import { disableAll, finished, _data } from "./game";
 import enviroment from "../../shared/enviroment";
-import { finish } from "./saveManager";
+import { finish, saveInterface } from "./saveManager";
 
 const box = document.getElementById("box");
 const helpText = document.getElementById("helpText");
@@ -9,8 +9,10 @@ const shareButton = document.getElementById("share");
 const completeButton = document.getElementById("desistir");
 const quit = document.getElementsByClassName("close");
 const help = document.getElementsByClassName("help")[0];
-
+const charts = document.getElementsByClassName("charts")[0];
 const allWords = document.getElementsByClassName("allWords")[0];
+const todayWord = document.getElementsByClassName("todayWord")[0];
+const status = document.getElementById("status");
 
 export interface dayData {
     day: string,
@@ -55,7 +57,34 @@ function changeCompleteState() {
 
     changeBoxState(true);
     completeText.classList.remove("hidden");
-    updateCompleteState();
+    if (finished) {
+        updateCompleteState();
+    }else{
+        allWords.innerHTML = "Conclua o desafio de hoje para visualizar as respostas"
+    }
+    updateStats();
+}
+
+function updateStats() {
+    todayWord.innerHTML = data.word[0].toUpperCase()+data.word.substring(1);
+
+    let s: saveInterface;
+
+    if (localStorage.getItem("stats")) {
+        s = JSON.parse(localStorage.getItem("stats"));
+
+        const n = status.getElementsByClassName("number");
+        n[0].innerHTML = s.games.toString();
+        n[1].innerHTML = getAverage(s.percent);
+        n[2].innerHTML = s.wordsTyped.toString();
+    }
+}
+
+function getAverage(n1): string {
+    return (n1*100).toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1
+    })+"%";
 }
 
 async function updateCompleteState() {
@@ -118,10 +147,10 @@ function getFirstFound() {
 }
 
 export function complete(correct: dayData) {
-    changeCompleteState();
     if (localStorage.getItem("data")) {
         if (data.day == JSON.parse(localStorage.getItem("data")).day) {
-            showMessageBox("Você já jogou hoje, volte amanhã para jogar mais!!!", 5000, "normal");
+            showMessageBox("Você já jogou hoje, volte amanhã para jogar mais!!!", 3000, "normal");
+            changeCompleteState();
             return;
         }
     }
@@ -131,6 +160,7 @@ export function complete(correct: dayData) {
     data = correct;
     disableAll();
     finish(data);
+    changeCompleteState();
 }
 
 export function showMessageBox(msg: string, time: number, type: string, callback?: () => void) {
@@ -175,7 +205,8 @@ export function showMessageBox(msg: string, time: number, type: string, callback
 }
 
 completeButton.addEventListener("click", complete.bind(this, _data));
-help.addEventListener("click", changeHelpState)
+help.addEventListener("click", changeHelpState);
+charts.addEventListener("click", changeCompleteState);
 shareButton.addEventListener("click", copyToClipboard);
 for (let i = 0; i < quit.length; i++) {
     const element = quit[i];
