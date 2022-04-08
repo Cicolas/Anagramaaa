@@ -43,6 +43,12 @@ app.get("/api/check_word/:word", (req, res) => {
     });
 })
 
+app.get("/api/get_all_words", (req, res) => {
+	res.status(200).json({
+		words: dayGuesses
+	});
+})
+
 app.listen(enviroment.port, () => {
     console.log(`Example app listening on port ${enviroment.port}`)
 })
