@@ -28,8 +28,8 @@ app.get("/api/random_word", (req, res) => {
 app.get("/api/daily_word", (req, res) => {
     console.log(`Daily word sent: "${dayWord}" ${dayGuesses.length} possible combinations`);
     res.status(200).json({
-	    day: seed,
-	word: dayWord,
+        day: seed,
+        word: dayWord,
         quantity: dayGuesses.length
     });
 })
@@ -44,9 +44,9 @@ app.get("/api/check_word/:word", (req, res) => {
 })
 
 app.get("/api/get_all_words", (req, res) => {
-	res.status(200).json({
-		words: dayGuesses
-	});
+    res.status(200).json({
+        words: dayGuesses
+    });
 })
 
 app.listen(enviroment.port, () => {
