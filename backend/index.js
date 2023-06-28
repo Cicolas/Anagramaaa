@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const enviroment = require("../shared/enviroment");
 const fs = require('fs');
-const path = require("path")
+const path = require("path");
 
 var day = new Date();
 var seed = getSeed(day);
@@ -60,7 +60,7 @@ var dayWord = "";
 var dayGuesses = [];
 
 function start() {
-    fs.readFile(path.resolve(__dirname, "palavras.txt"), "utf8", (err, data) => {
+    fs.readFile(path.resolve(__dirname, "palavras2.txt"), "utf8", (err, data) => {
         if (err) {
             throw err.message;
         }
