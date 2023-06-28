@@ -1093,7 +1093,7 @@ function average(gameNum, oldPercent, percent) {
 
 module.exports = {
     port: 8081,
-    url: "http://18.230.187.254:8081"
+    url: "https://word-api-5975cab08d76.herokuapp.com"
 }
 
 /***/ })
