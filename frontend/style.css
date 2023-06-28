@@ -219,7 +219,6 @@ body {
     /* width: 100%; */
     margin: 25px 0px;
     padding: 25px 0px;
-    align-content: center;
     background-color: #232323;
     border-radius: 10px;
     box-shadow: 3px 3px 10px rgb(14, 14, 14);
@@ -243,7 +242,6 @@ body {
 }
 
 #status>div>.label {
-    position: absolute;
     bottom: 0px;
     width: 100%;
     text-align: center;
